@@ -1,0 +1,14 @@
+<h2>Values</h2>
+<a class="btn btn-success" href="values/new" role="button">ADD new Value</a>
+<a class="btn btn-primary" href="/" role="button">HOME</a>
+<ul class="list-group">
+    {{#each values}}
+    <li class="list-group-item">
+            <h3>{{name}}</h3>
+            <h3>{{symbol}}</h3>
+            <form action="/values/delete/{{id}}" method="POST">
+    <button class="btn btn-danger" type="submit">DELETE</button>
+</form>
+    </li>
+    {{/each}}
+</ul>
