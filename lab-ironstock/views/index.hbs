@@ -3,7 +3,11 @@
     <h1>Axios GET demo with Chartjs</h1>
     <a class="btn btn-primary" href="/values">Values</a>
 {{#each data}}
-<canvas></canvas>
+<script>document.addEventListener(
+	'DOMContentLoaded', printChart('{{this.symbol}}'),
+	false
+);</script>
+<canvas id="{{this.symbol}}"></canvas>
 {{/each}}
 
 

@@ -1,38 +1,35 @@
-document.addEventListener('DOMContentLoaded', () => {
+const key = '8OFYDPJURDT4ZUUL';
+const functionName = 'TIME_SERIES_DAILY';
 
-  console.log('IronGenerator JS imported successfully!');
-}, false);
+async function printChart(value) {
+  try {
+    console.log(value)
+    var apiUrl = `https://www.alphavantage.co/query?function=${functionName}&symbol=${value}&apikey=${key}`;
+    console.log(apiUrl)
+    const responseFromAPI = await axios.get(apiUrl);
+    console.log(responseFromAPI);
+    const stockData = responseFromAPI.data;
 
-hbs.registerHelper("printChart", function printTheChart(stockData) {
+    const dailyData = stockData['Time Series (Daily)'];
+    const stockDates = Object.keys(dailyData);
+    const stockPrices = stockDates.map(date => dailyData[date]['4. close']);
 
-  const dailyData = stockData['Time Series (Daily)'];
-
-  const stockDates = Object.keys(dailyData);
-  const stockPrices = stockDates.map(date => dailyData[date]['4. close']);
-
-  //const ctx = document.getElementsByTagName('canvas').getContext('2d');
-  /*var canvas = window.document.createElement("canvas");*/
+    const ctx = document.getElementById(value).getContext('2d');
 
 
-  const canvasChart = new hbs.SafeString( `<canvas></canvas>`)
-  const ctx =  canvasChart.getContext('2d');
     const chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: stockDates,
-        datasets: [
-          {
-            label: 'Stock Chart',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: stockPrices
-          }
-        ]
+        datasets: [{
+          label: `Stock Chart of ${value}`,
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgb(255, 99, 132)',
+          data: stockPrices
+        }]
       }
     }); // closes chart = new Chart()
-  })
-
-
-
-
-  
+  } catch (err) {
+    console.log(err)
+  }
+}

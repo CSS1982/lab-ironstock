@@ -12,7 +12,7 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 const app = express();
 const index = require('./routes/index');
-const values = require('./routes/values')
+const values = require('./routes/values');
 
 
 mongoose
